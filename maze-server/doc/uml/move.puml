@@ -1,0 +1,28 @@
+@startuml
+skinparam ParticipantPadding 100
+
+title Move
+
+Client <- Server : **AwaitMove**
+rnote right : Aufforderung einen Zug zu machen
+Client -> Server : **Move**
+rnote left : Zug an den Server senden
+alt erfolgreich
+    Client <- Server : **Accept**\nInhalt: <color #green>boolean:accept = true</color>\nFehlercode: <color #green>NOERROR</color>
+    rnote right #lightgreen : Alles ok
+    Client <- Server : **AwaitMove**
+
+else allgemeiner Fehler
+    Client <- Server : **Accept**\nInhalt: <color #red>boolean:accept = false</color>\nFehlercode: <color #red>AWAIT_MOVE</color>
+    rnote right #FFAAAA : Falsche Nachricht
+
+else inkorrekter Zug
+    Client <- Server : **Accept**\nInhalt: <color #red>boolean:accept = false</color>\nFehlercode: <color #red>ILLEGAL_MOVE</color>
+    rnote right #FFAAAA : Regelverstoß
+
+else zu viele Versuche
+    Client <- Server : **Disconnect**\nFehlercode: <color #red>TOO_MANY_TRIES</color>
+    rnote right #FFAAAA : Zu viele Versuche
+end
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+skinparam ParticipantPadding 100
+
+title Login
+
+Client -> Server : **Login**
+alt erfolgreicher Login
+    Client <- Server : **LoginReply**\nInhalt: neue ID\nmerken und mitsenden
+    rnote right #lightgreen : Alles ok
+
+else fehlgeschlagener Login
+    Client <- Server : **Accept**\nInhalt: <color #red>boolean:accept = false</color>\nFehlercode: <color #red>AWAIT_LOGIN</color>
+    rnote right #FFAAAA : Falsche Nachricht
+
+else wiederholt fehlgeschlagener Login
+    Client <- Server : **Disconnect**\nFehlercode: <color #red>TOO_MANY_TRIES</color>
+    rnote right #FFAAAA : Loginversuche
+
+end
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+skinparam ParticipantPadding 100
+
+title Fehlerfreie Kommunikation
+
+Client -> Server : **Login**
+Server --> Client : **LoginReplay**
+
+loop Alle Spieler
+    Server -> Client : **AwaitMove**
+    Client --> Server : **Move**
+    Server --> Client : **Accept**
+    loop Alle Verbindungen
+        Server -> Client : **MoveInfo**
+    end
+end
+
+Server -> Client : **Win**
+
+@enduml

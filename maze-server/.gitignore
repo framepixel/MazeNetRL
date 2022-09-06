@@ -1,0 +1,50 @@
+## JAVA
+src/main/java/de/fhac/mazenet/server/generated/*.java
+bin/
+
+# Compiled class file
+*.class
+
+# SSL Cert-Store
+maze-ssl.jks
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+## MAVEN
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Avoid ignoring deployment repo
+!/target/mvn-repo/*
+
+# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+!/.mvn/wrapper/maven-wrapper.jar
+
+## IDEA
+.idea/
+*.iml
+
+## Eclipse
+.classpath
+.project
+.settings
+bin/
+
+## VS-Code
+.vscode
+
+# JAXB
+sun-jaxb.episode

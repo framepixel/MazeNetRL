@@ -1,0 +1,5 @@
+95578da3e1ec38b514f26414c236abb17ac625c9		branch 'master' of https://git.fh-aachen.de/mazenet/maze-server
+5f00b1129b3c4824edcff40620e5be0715a7c7a7	not-for-merge	branch '2dBoard' of https://git.fh-aachen.de/mazenet/maze-server
+f889033572ae4944838145be573f0e9667d2af40	not-for-merge	branch 'TextBoard' of https://git.fh-aachen.de/mazenet/maze-server
+3166f9a723a203a128a903121eb2d65e96acac3c	not-for-merge	branch 'bugfix/timeout' of https://git.fh-aachen.de/mazenet/maze-server
+e438eaf560c31b3ebb2b2f56f69f4f6b579e8488	not-for-merge	branch 'feature/logfile' of https://git.fh-aachen.de/mazenet/maze-server
