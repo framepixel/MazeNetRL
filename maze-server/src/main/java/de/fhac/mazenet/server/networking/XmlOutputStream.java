@@ -37,6 +37,8 @@ public class XmlOutputStream extends UTFOutputStream {
         // Generierung des fertigen XML
         try {
             // Versenden des XML
+            // String mazexml = mazeComToXML(mazeCom);
+            // System.out.println("mazexml:" + mazexml);
             this.writeUTF8(mazeComToXML(mazeCom));
             Debug.print(String.format(Messages.getString("XmlOutputStream.SendMessageTypToID"),
                     mazeCom.getMessagetype().value(), mazeCom.getId()), DebugLevel.VERBOSE);
