@@ -4,7 +4,7 @@ from Position import Position
 from Card import Card
 from NewBoard import Board
 
-from gymnasium.spaces import Discrete, Box, Tuple, MultiBinary, MultiDiscrete
+from gymnasium.spaces import Discrete, Box, Tuple, MultiBinary, MultiDiscrete, Dict
 import numpy as np
 
 import pydirectinput
@@ -54,7 +54,13 @@ class MARL_Env_Parallel(ParallelEnv):
             zip(self.possible_agents, list(range(len(self.possible_agents))))
         )
         self._action_spaces = {agent: MultiDiscrete([11, 4, 7, 7, 12], dtype=np.int8) for agent in self.possible_agents}
-        self._observation_spaces = {agent: Box(low=0, high=6, shape=(4,), dtype=np.uint8) for agent in self.possible_agents}
+        #self._observation_spaces = #{"observation",{agent: Box(low=0, high=6, shape=(4,), dtype=np.uint8) for agent in self.possible_agents},
+                                   # "mask"}
+        self._observation_spaces = {agent: Dict({   
+                                            "observation": Box(low=0, high=1, shape=(3, 3, 2), dtype=np.int8),
+                                            "action_mask": Box(low=0, high=1, shape=(9,), dtype=np.int8),
+                                            })for agent in self.possible_agents
+                                    }
         self.render_mode = render_mode
         self.player_pos = {}
         self.next_treasure_pos = {}
@@ -66,11 +72,11 @@ class MARL_Env_Parallel(ParallelEnv):
     @functools.lru_cache(maxsize=None)
     def observation_space(self, agent):
         # gymnasium spaces are defined and documented here: https://gymnasium.farama.org/api/spaces/
-        return Box(low=0, high=6, shape=(4,), dtype=np.uint8)
+        return self._observation_spaces[agent]
     
     @functools.lru_cache(maxsize=None)
     def action_space(self, agent):
-        return MultiDiscrete([11, 4, 7, 7, 12], dtype=np.int8)
+        return self._action_spaces[agent]
 
     def render(self):
         """
