@@ -20,6 +20,8 @@ import numpy as np
 import traceback
 import operator
 
+import time
+
 HOST = "127.0.0.1"
 PORT = 9571
 
@@ -30,6 +32,8 @@ class Agent_Client:
 
 
 class MazeEnv(Env):
+
+    # metadata = {"render.modes": ["human"], "normalize_images":False}
     def __init__(self, render_mode=None):
         super().__init__()
         self.action_space = MultiDiscrete([11, 4, 7, 7, 12], dtype=np.int8)
@@ -154,22 +158,32 @@ class MazeEnv(Env):
         return reward          
     
     def step(self, action):
+        print("begin step")
         reward = 0
         try:
+            print("before read")
             receivedMazeCom = self.agent.client.in_.read_maze_com()
+            print("after read")
             if(receivedMazeCom.get_messagetype() == MazeComMessagetype.LOGINREPLY):
+                print("loginreply")
                 id_ = receivedMazeCom.get_LoginReplyMessage().get_newID()
                 self.agent.client.setId(id_)
             elif(receivedMazeCom.get_messagetype() == MazeComMessagetype.ACCEPT):
+                print("accept")
                 if(receivedMazeCom.get_AcceptMessage().get_errortypeCode() != 'ILLEGAL_MOVE'):
                     reward += 2
             elif (receivedMazeCom.get_messagetype() == MazeComMessagetype.DISCONNECT):
+                print("disconnect")
                 print(receivedMazeCom.get_DisconnectMessage())
                 self.is_done = True
+                print("is_done in:", self.is_done)
+                print("we done, step num:", self.current_step)
             elif(receivedMazeCom.get_messagetype() == MazeComMessagetype.AWAITMOVE):
+                print("awaitmove")
                 reward += self.awaitMove(receivedMazeCom, action)
             elif(receivedMazeCom.get_messagetype() == MazeComMessagetype.MOVEINFO):
-                pass
+                print("moveinfo")
+                reward = reward
             elif(receivedMazeCom.get_messagetype() == MazeComMessagetype.WIN):
                 print("You have won")
                 self.is_done = True
@@ -187,16 +201,24 @@ class MazeEnv(Env):
                 print("end reached, disconnecting")
                 self.is_done = True
                 #sys.exit(1)
+        
+        if not hasattr(self, 'start_time'):
+            self.start_time = time.time()
+        elapsed_time = time.time() - self.start_time
+        print("self.is_done:", self.is_done)
+        # terminate the episode if the time limit is exceeded
+        if elapsed_time >= 5 * 60:  # 5 minutes in seconds
+            self.is_done = True
 
         self.current_step += 1
         if self.current_step >= self.max_steps:
             self.is_done = True
-        else:
-            self.is_done = False
         
         observation = self._get_obs()
         done = self.is_done
         info = {}
+        print("well it is done I guess")
+        if done: print("done:", done)
         return observation, reward, done, False, info
     
     def reset(self):
@@ -225,6 +247,7 @@ class MazeEnv(Env):
         observations = self._get_obs()
         #print("obs:", observations)
         #print("reset done")
+        self.start_time = time.time()
         return observations, {}
 
 
