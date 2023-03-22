@@ -264,7 +264,7 @@ class MazeEnv(Env):
         pydirectinput.click(x=1150, y=178)
         pydirectinput.click(x=1150, y=178)
         # start
-        keyboard.press_and_release("4")
+        keyboard.write("4")
         keyboard.press_and_release('\n')
         time.sleep(2)
         keyboard.write('mvn exec:java -Dexec.args="-c config.prop"')
@@ -273,7 +273,7 @@ class MazeEnv(Env):
         # keyboard.press_and_release("2")
         # keyboard.press_and_release('\n')
         # time.sleep(1)
-        keyboard.press_and_release("1")
+        keyboard.write("1")
         keyboard.press_and_release('\n')
         time.sleep(1)
         # pydirectinput.click(x=1100, y=178)
