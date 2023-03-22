@@ -67,25 +67,33 @@ class Client:
             # self.sslSocket = self.sslSocketFactory.createSocket(address, port)
 
             # Load the SSL context from a .jks file
-            context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+            # context = ssl.create_default_context(ssl.PROTOCOL_TLS_CLIENT)
+            #context.set_log_level(ssl.LOG_LEVEL_DEBUG)
+
             # context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
             # context.options |= ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3
 
-            context.load_cert_chain(certfile="mycert.pem", keyfile="clientkey.pem", password="geheim")
-            context.load_verify_locations(cafile="clienttruststore.jks")
+            #context.load_cert_chain(certfile="mycert.pem", keyfile="clientkey.pem", password="geheim")
+            # context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+            # context.load_verify_locations(truststore_path)
+            
+            s = socket.socket(socket.AF_INET)
+            conn = ssl.wrap_socket(s, ca_certs="mycert.pem")
 
-            # Create a TCP socket
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            #sock.settimeout(10)
+            conn.connect((address, port))
 
-            # Wrap the TCP socket with SSL
-            s = context.wrap_socket(sock, server_hostname=address)
+            # # Create a TCP socket
+            # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            # #sock.settimeout(10)
 
-            # Connect to the server
-            s.connect((address, port))
+            # # Wrap the TCP socket with SSL
+            # s = context.wrap_socket(sock, server_hostname=address)
 
-            self.in_ = XmlInputStream(self.sslSocket.getInputStream())
-            self.out = XmlOutputStream(self.sslSocket.getOutputStream())
+            # # Connect to the server
+            # s.connect((address, port))
+
+            self.in_ = XmlInputStream(conn)
+            self.out = XmlOutputStream(conn)
         else:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((address, port))
@@ -115,6 +123,7 @@ class Client:
         mazeCom.set_id(-1)
         mazeCom.set_LoginMessage(objectFactory.createLoginMessageData())
         mazeCom.get_LoginMessage().set_name(name)
+        mazeCom.get_LoginMessage().set_role(ClientRole.PLAYER)
         return mazeCom
     
 
@@ -174,6 +183,7 @@ class Client:
         control_server_data = ControlServerData()
         control_server_data.set_playerCount(num_players)
         control_server_data.set_command("START")
+        msg.set_id(self.id_)
         msg.set_ControlServerMessage(control_server_data)
         self.out.write(msg)
 
@@ -183,6 +193,7 @@ class Client:
         control_server_data = ControlServerData()
         control_server_data.set_playerCount(num_players)
         control_server_data.set_command("STOP")
+        msg.set_id(self.id_)
         msg.set_ControlServerMessage(control_server_data)
         self.out.write(msg)
 
