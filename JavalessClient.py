@@ -32,7 +32,7 @@ from mazeCom import MoveMessageData, BoardData
 #from MoveMessageDatapy import MoveMessageData
 from Position import Position
 from Card import Card
-from Board import Board
+from NewBoard import Board
 import ssl
 
 class Client:
