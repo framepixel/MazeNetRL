@@ -23,6 +23,12 @@ import operator
 import time
 import keyboard
 
+import Xlib.display as display
+import Xlib.X as X
+import Xlib.XK as XK
+import Xlib
+from Xlib.ext import xtest
+
 HOST = "127.0.0.1"
 PORT = 9571
 
@@ -212,6 +218,48 @@ class MazeEnv(Env):
         info = {}
         return observation, reward, done, False, info
     
+    # def click(self):
+    #     # Set the display
+    #     disp = display.Display()
+
+    #     # Get the root window
+    #     root = disp.screen().root
+
+    #     # Find the window at the given coordinates
+    #     win = root.create_window(1150, 178, 1, 1, 0, 0, X.InputOnly)
+
+    #     # Send a double-click event to the window
+    #     event = Xlib.protocol.event.ClientMessage(window=win, client_type=Xlib.X.ClientMessage, data=(32, (X.CurrentTime, 0, 1150, 178, 1)))
+    #     win.send_event(event, propagate=True)        
+
+    #     # Simulate pressing Ctrl+V
+    #     xtest.fake_input(disp, X.KeyPress, 0xffe3)  # Ctrl
+    #     xtest.fake_input(disp, X.KeyPress, 47)     # V
+    #     xtest.fake_input(disp, X.KeyRelease, 47)   # V
+    #     xtest.fake_input(disp, X.KeyRelease, 0xffe3) # Ctrl
+
+    #     disp.sync()
+
+    #     # # Send the "4" keypress
+    #     # root.grab_keyboard(True, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime)
+    #     # event = Xlib.protocol.event.KeyPress(detail=XK.XK_4)
+    #     # root.send_event(event)
+    #     # event = Xlib.protocol.event.KeyRelease(detail=XK.XK_4)
+    #     # root.send_event(event)
+    #     # root.grab_keyboard(False, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime)
+
+    #     # # Send the return keypress
+    #     # root.grab_keyboard(True, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime)
+    #     # event = Xlib.protocol.event.KeyPress(detail=XK.XK_Return)
+    #     # root.send_event(event)
+    #     # event = Xlib.protocol.event.KeyRelease(detail=XK.XK_Return)
+    #     # root.send_event(event)
+    #     # root.grab_keyboard(False, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime)
+
+    #     # Wait for 2 seconds
+    #     time.sleep(2)
+
+
     def reset(self):
         pydirectinput.click(x=1150, y=178)
         pydirectinput.click(x=1150, y=178)
