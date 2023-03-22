@@ -96,7 +96,7 @@ class MazeEnv(Env):
             self.current_move.set_newPinPos(new_player_pos)
             self.next_treasure_pos = treasurePositionData.to_array()
             self.player_pos = new_player_pos.to_array()
-            return self.current_move, reward - 3
+            return self.current_move, reward - 5
         else:
             treasurePosition = Position(treasurePositionData)
             if(chosen_pos_obj.equals(treasurePosition)):
@@ -104,7 +104,7 @@ class MazeEnv(Env):
                 self.current_move.set_newPinPos(treasurePosition)
                 self.next_treasure_pos = treasurePositionData.to_array()
                 self.player_pos = treasurePosition.to_array()
-                return self.current_move, reward + 50
+                return self.current_move, reward + 30
             else:
                 # print("reachable position, but no treasure")
                 self.current_move.set_newPinPos(chosen_pos_obj)
@@ -189,7 +189,7 @@ class MazeEnv(Env):
                 elif(receivedMazeCom.get_messagetype() == MazeComMessagetype.WIN):
                     print("You have won")
                     self.is_done = True
-                    reward += 500
+                    reward += 200
                 else:
                     print("Unknown message type: " + receivedMazeCom.get_messagetype())
             except Exception as e:
