@@ -269,7 +269,7 @@ class MazeEnv(Env):
         time.sleep(2)
         keyboard.write('mvn exec:java -Dexec.args="-c config.prop"')
         keyboard.press_and_release('\n')
-        time.sleep(8)
+        time.sleep(12)
         # keyboard.press_and_release("2")
         # keyboard.press_and_release('\n')
         # time.sleep(1)
