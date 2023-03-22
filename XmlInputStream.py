@@ -82,7 +82,7 @@ from Card import Card
 
 import xml.sax
 from mazeCom import Row, Openings, Pin, Treasure, CardData
-from Board import Board
+from NewBoard import Board
 # class MazeComHandler(xml.sax.ContentHandler):
 #     def __init__(self):
 #         self.maze_com = None
@@ -347,8 +347,9 @@ class XmlInputStream():
         elif message_type == "MOVEINFO":
             mazecom.set_MoveInfoMessage(MoveInfoData())
         elif message_type == "WIN":
-            #mazecom.get_WinMessage().set
-            pass
+            mazecom.set_WinMessage(WinMessage=WinMessageData())
+        elif message_type == "GAMESTATUS":
+            mazecom.set_GameStatusMessage(GameStatusMessage=GameStatusData())
         else:
             raise ValueError(f"Invalid message type: {message_type}")
 

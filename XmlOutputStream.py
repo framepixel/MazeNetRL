@@ -32,16 +32,14 @@ class XmlOutputStream(UTFOutputStream):
             login_message_element = ET.SubElement(root, "LoginMessage")
             name_element = ET.SubElement(login_message_element, "name")
             name_element.text = maze_com.get_LoginMessage().get_name()
-            # role_element = ET.SubElement(login_message_element, "role")
-            # role_element.text = maze_com.get_role()
+            #if maze_com.get_LoginMessage().get_role() == "MANAGER":
+            role_element = ET.SubElement(login_message_element, "role")
+            role_element.text = maze_com.get_LoginMessage().get_role()
         if maze_com.get_LoginReplyMessage() is not None:
             login_reply_message_element = ET.SubElement(root, "LoginReplyMessage")
             login_reply_message_element.text = maze_com.get_LoginReplyMessage()
         if maze_com.get_AwaitMoveMessage() is not None:
             pass
-
-
-            #await_move_message_element.text = maze_com.get_AwaitMoveMessage()
         if maze_com.get_MoveMessage() is not None:
             await_move_message_element = ET.SubElement(root, "MoveMessage")
 
@@ -88,16 +86,32 @@ class XmlOutputStream(UTFOutputStream):
             game_status_message_element.text = maze_com.get_GameStatusMessage()
         if maze_com.get_ControlServerMessage() is not None:
             control_server_message_element = ET.SubElement(root, "ControlServerMessage")
-            control_server_message_element.text = maze_com.get_ControlServerMessage()
+            player_count_element = ET.SubElement(control_server_message_element, "playerCount")
+            player_count_element.text = str(maze_com.get_ControlServerMessage().get_playerCount())
+            command_element = ET.SubElement(control_server_message_element, "command")
+            command_element.text = maze_com.get_ControlServerMessage().get_command()
         if maze_com.get_AcceptMessage() is not None:
             accept_message_element = ET.SubElement(root, "AcceptMessage")
             accept_message_element.text = maze_com.get_AcceptMessage()
+            accept_element = ET.SubElement(accept_message_element, "accept")
+            accept_element.text = maze_com.get_AcceptMessage().get_accept()
+            error_element = ET.SubElement(accept_message_element, "errortypeCode")
+            error_element.text = maze_com.get_AcceptMessage().get_errortypeCode()
         if maze_com.get_WinMessage() is not None:
             win_message_element = ET.SubElement(root, "WinMessage")
             win_message_element.text = maze_com.get_WinMessage()
         if maze_com.get_DisconnectMessage() is not None:
             win_message_element = ET.SubElement(root, "DisconnectMessage")
             win_message_element.text = maze_com.get_DisconnectMessage()
+
+        # if maze_com.get_ControlServerMessage() is not None:
+        #     control_server_message_element = ET.SubElement(root, "ControlServerMessage")
+        #     #control_server_message_element.text = maze_com.get_ControlServerMessage()
+        #     player_count_element = ET.SubElement(control_server_message_element, "playerCount")
+        #     player_count_element.text = maze_com.get_ControlServerMessage().get_playerCount()
+        #     command_element = ET.SubElement(control_server_message_element, "command")
+        #     command_element.text = maze_com.get_ControlServerMessage().get_command()
+            
 
 
         # Add more child elements as needed...
