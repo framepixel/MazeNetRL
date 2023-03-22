@@ -3,9 +3,6 @@
 
 
 # Boiler plate stuff to start the module
-import jpype
-import jpype.imports
-from jpype.types import *
 import sys 
 import numpy as np
 import traceback
@@ -13,12 +10,6 @@ import random
 
 
 
-# Launch the JVM
-jpype.startJVM(classpath=['./maze-server-v2019.4.jar'])
-
-
-# import the Java modules
-from java.net import Socket
 from XmlOutputStream import XmlOutputStream
 from XmlInputStream import XmlInputStream
 #from de.fhac.mazenet.server.networking import XmlOutputStream
@@ -30,7 +21,6 @@ from XmlInputStream import XmlInputStream
 # from de.fhac.mazenet.server.generated import BoardData
 from mazeCom import ObjectFactory, ClientRole, ControlServerData
 
-from de.fhac.mazenet.server.networking import MazeComMessageFactory
 import socket
 #from de.fhac.mazenet.server.game import Board
 #from de.fhac.mazenet.server.game import Position
