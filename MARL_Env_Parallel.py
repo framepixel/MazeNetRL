@@ -57,8 +57,8 @@ class MARL_Env_Parallel(ParallelEnv):
         #self._observation_spaces = #{"observation",{agent: Box(low=0, high=6, shape=(4,), dtype=np.uint8) for agent in self.possible_agents},
                                    # "mask"}
         self._observation_spaces = {agent: Dict({   
-                                            "observation": Box(low=0, high=1, shape=(3, 3, 2), dtype=np.int8),
-                                            "action_mask": Box(low=0, high=1, shape=(9,), dtype=np.int8),
+                                            "observation": Box(low=0, high=6, shape=(4,), dtype=np.uint8),
+                                            "action_mask": Box(low=0, high=1, shape=(41,), dtype=np.int8),
                                             })for agent in self.possible_agents
                                     }
         self.render_mode = render_mode
